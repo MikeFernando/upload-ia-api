@@ -16,6 +16,7 @@ export async function uploadVideoRoute(app: FastifyInstance) {
       fileSize: 1_048_576 * 25 // 25mb
     }
   })
+  
   app.post('/videos', async (req, reply) => {
     const data = await req.file()
 
