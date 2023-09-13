@@ -17,10 +17,22 @@ Content-Type: audio/mpeg
 ### 
 
 # @name create-transcription
-POST http://localhost:3333/videos/50f3c274-32d1-4602-8f58-7f78577b4c1e/transcription
+POST http://localhost:3333/videos/8d7a21bd-baf5-4b47-86cf-c413f426f6a8/transcription
 Content-Type: application/json
 
 {
   "prompt": "retração, m5"
+}
+
+### 
+
+# @name generate-ai-completion
+POST http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+  "videoId": "8d7a21bd-baf5-4b47-86cf-c413f426f6a8",
+  "template": "Gere um resumo sucinto da transcrição do video informada a seguir: '''{transcription}'''",
+  "temperature": 0.5
 }
 
