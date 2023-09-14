@@ -1,4 +1,5 @@
 import { FastifyInstance } from "fastify";
+import { OpenAIStream, streamToResponse } from 'ai'
 import { z } from 'zod'
 
 import { prisma } from "../lib/prisma";
@@ -29,11 +30,19 @@ export async function generateAICompletionRoute(app: FastifyInstance) {
     const response = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo-16k',
       temperature,
+      stream: true,
       messages: [
         { role: 'user', content: promptMessage }
-      ]
+      ],
     })
     
-    return response
+    const stream = OpenAIStream(response)
+
+    streamToResponse(stream, reply.raw, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, DELETE, PUT, UPDATE, OPTIONS'
+      }
+    })
   })
 }
